@@ -1,20 +1,25 @@
 package com.example.firstproject.dto;
 
+import com.example.firstproject.entity.Article;
+
 public class ArticleForm {
-    private String tite;    //제목 받는 필드
+    private String title;    //제목 받는 필드
     private String content; //내용 받는 필드
 
-    public ArticleForm(String tite, String content) {
-        this.tite = tite;
+    public ArticleForm(String title, String content) {
+        this.title = title;
         this.content = content;
     }
 
     @Override
     public String toString() {
         return "ArticleForm{" +
-                "tite='" + tite + '\'' +
+                "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }
 
+    public Article toEntity() {
+        return new Article(null, title, content);
+    }
 }
