@@ -9,8 +9,9 @@ import lombok.ToString;
 public class MemberForm {
     private String email;
     private String password;
+    private Long id;
 
     public Member toEntity(){
-        return new Member(null, email, password);
+        return new Member(id, email, password);
     }
 }
