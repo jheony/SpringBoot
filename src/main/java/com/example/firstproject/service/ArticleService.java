@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -56,10 +60,26 @@ public class ArticleService {
         Article target = articleRepository.findById(id).orElse(null);
         //2. 잘못된 요청 처리
         if (target == null) {
-        return null;
+            return null;
         }
         //3. 대상 삭제
         articleRepository.delete(target);
         return target;
+    }
+
+    @Transactional
+    public List<Article> createArticles(List<ArticleForm> dtos) {
+        //1. dto묶음을 엔티티 묶음으로 변환
+        List<Article> articleList =
+                dtos.stream().map(dto -> dto.toEntity())
+                        .collect(Collectors.toList());
+
+        //2. 엔티티묶음을 DB에 저장
+        articleList.stream().forEach(article -> articleRepository.save(article));
+
+        //3. 강제 예외 발생
+        articleRepository.findById(-1L).orElseThrow(() -> new IllegalArgumentException("결제 실패 !"));
+        //4. 결과 값 반환
+        return articleList;
     }
 }
