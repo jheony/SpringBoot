@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -51,10 +55,22 @@ public class CoffeeService {
 
     public Coffee delete(Long id) {
         Coffee target = coffeeRepository.findById(id).orElse(null);
-        if (target == null){
+        if (target == null) {
             return null;
         }
         coffeeRepository.delete(target);
         return target;
+    }
+
+    @Transactional
+    public List<Coffee> createCoffees(List<CoffeeDto> dtos) {
+        List<Coffee> coffeeList = dtos.stream().map(dto -> dto.toEntity())
+                .collect(Collectors.toList());
+
+        coffeeList.stream().forEach(coffee -> coffeeRepository.save(coffee));
+
+        coffeeRepository.findById(-1L).orElseThrow(() -> new IllegalArgumentException("결제실패"));
+
+        return coffeeList;
     }
 }

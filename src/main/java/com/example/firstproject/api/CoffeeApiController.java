@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RestController
 public class CoffeeApiController {
@@ -55,6 +58,13 @@ public class CoffeeApiController {
         Coffee deleted = coffeeService.delete(id);
         return (deleted != null) ?
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+    @PostMapping("/api/transaction-test")
+    public ResponseEntity<List<Coffee>> transactionTest(@RequestBody List<CoffeeDto> dtos){
+        List<Coffee> createdList = coffeeService.createCoffees(dtos);
+        return (createdList != null)?
+                ResponseEntity.status(HttpStatus.OK).body(createdList):
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
