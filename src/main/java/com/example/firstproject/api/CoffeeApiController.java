@@ -60,7 +60,7 @@ public class CoffeeApiController {
                 ResponseEntity.status(HttpStatus.NO_CONTENT).build() :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-    @PostMapping("/api/transaction-test")
+    @PostMapping("/api/transactionTest")
     public ResponseEntity<List<Coffee>> transactionTest(@RequestBody List<CoffeeDto> dtos){
         List<Coffee> createdList = coffeeService.createCoffees(dtos);
         return (createdList != null)?
