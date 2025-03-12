@@ -2,7 +2,7 @@
 ## 참고 서적 📖
 코딩 자율학습 스프링 부트 3 자바 백엔드 개발 입문
 ## 개발 환경 💻
-- IDE : VSCode
+- IDE : IntelliJ
 - 개발 언어 : Java 17
 - 개발 환경 : SpringBoot 3.21 , gradle , jpa(Spring Data JPA), mustache
 - 데이터베이스 : H2
